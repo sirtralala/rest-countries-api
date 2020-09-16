@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png"> -->
+  <link rel="stylesheet" href="sass/main.css">
+  <!-- for production, change to: href="css/style_comp.css" -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap" rel="stylesheet">
+  
+  <title>Frontend Mentor | Where in the world?</title>
+</head>
+
+<body>
+  <header class="header">
+    <h1 class="header__title">Where in the world?</h1>
+    <div class="header__switch" onclick="toggleDarkMode()">
+      <svg class="header__switch--icon"><use xlink:href="./images/sprite.svg#icon-moon"></use></svg>
+      <div class="header__switch--text">Dark Mode</div>
+    </div>
+  </header>
+
+  <div class="content">
+    <div class="searchbar">
+      <input type="search" class="searchbar__input" id="search" name="search" placeholder="Search for a country...">
+
+      <select name="region" id="region" class="searchbar__select">
+        <option value="none" selected disabled hidden>Filter by Region</option>
+        <option value="Africa">Africa</option>
+        <option value="Americas">Americas</option>
+        <option value="Asia">Asia</option>
+        <option value="Europe">Europe</option>
+        <option value="Oceania">Oceania</option>
+      </select>
+    </div>
+
+    <div class="countries">&nbsp;</div>
+  
+    <div class="attribution">
+      Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+      Coded by <a href="https://github.com/sirtralala" target="_blank">Thomas Doerflinger</a>.
+    </div>
+  </div>
+  
+  <script src="./js/script.js"></script>
+  <script>( () => { executeRequest(); })();</script>
+</body>
+</html>

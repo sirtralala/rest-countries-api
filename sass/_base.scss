@@ -1,0 +1,81 @@
+// COLORS
+
+$dark-blue: hsl(209, 23%, 22%); // Dark Mode Elements
+$very-dark-blue-darkmode: hsl(207, 26%, 17%); // Dark Mode Background
+$white: hsl(0, 0%, 100%); // Dark Mode Text & Light Mode Elements
+
+$very-dark-blue-lightmode: hsl(200, 15%, 8%); // Light Mode Text
+$dark-gray: hsl(0, 0%, 52%); // Light Mode Input
+$very-light-gray: hsl(0, 0%, 98%); // Light Mode Background
+
+
+
+// TYPOGRAPHY
+
+$font-family-default: 'Nunito Sans', sans-serif;
+$homepage-items: 14px;
+$detail-page: 16px;
+
+
+
+// MIXINS
+
+@mixin input ($min-width, $padding) {
+    min-width: $min-width;
+    padding: $padding;
+    border: none;
+    border-radius: .2rem;
+    box-shadow: 0 .2rem .4rem hsl(0, 0%, 90%);
+
+    &:focus {
+        outline: none;
+    }   
+}
+
+@mixin search-darkmode ($color) {
+    background: $dark-blue url('data:image/svg+xml;utf8,<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="#{$color}"><path d="M19.427 20.427c-1.39 0.99-3.090 1.573-4.927 1.573-4.694 0-8.5-3.806-8.5-8.5s3.806-8.5 8.5-8.5c4.694 0 8.5 3.806 8.5 8.5 0 1.837-0.583 3.537-1.573 4.927l5.585 5.585c0.55 0.55 0.546 1.431-0 1.976l-0.023 0.023c-0.544 0.544-1.431 0.546-1.976 0l-5.585-5.585zM14.5 20c3.59 0 6.5-2.91 6.5-6.5s-2.91-6.5-6.5-6.5c-3.59 0-6.5 2.91-6.5 6.5s2.91 6.5 6.5 6.5v0z"></path></svg>') 2rem /1.8rem no-repeat;
+}
+
+@mixin select-darkmode ($color) {
+    background: $dark-blue url('data:image/svg+xml;utf8,<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="#{$color}"><path d="M9.293 12.95l0.707 0.707 5.657-5.657-1.414-1.414-4.243 4.242-4.243-4.242-1.414 1.414z"></path></svg>') 95% /1.2rem no-repeat;
+}
+
+@mixin button ($display, $margin) {
+    display: $display;
+    justify-content: space-between;
+    align-items: center;
+    padding: .3rem 1.3rem;
+    margin: $margin;
+    background-color: $white;
+    border: .15rem solid hsl(0, 0%, 86%);
+    border-radius: .3rem;
+    transition: all .1s ease-out;
+
+    &:hover {
+        cursor: pointer;
+        color: $white;
+        background-color: $very-dark-blue-darkmode;
+        border: .15rem solid $very-dark-blue-darkmode;
+    }
+
+    &:focus {
+        outline: none;
+    }
+
+    &-darkmode {
+        color: $white;
+        background-color: $very-dark-blue-darkmode;
+        border: .15rem solid $white;
+
+        &:hover {
+            cursor: pointer;
+            color: $very-dark-blue-lightmode;
+            background-color: $white;
+            border: .15rem solid $white;
+        }
+
+        &:focus {
+            outline: none;
+        }
+    } 
+}

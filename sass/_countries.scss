@@ -1,0 +1,98 @@
+.countries {
+    display: flex;
+    flex-wrap: wrap;
+
+    @media only screen and (max-width: 600px) {
+        justify-content: center;
+    }
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    max-width: 20%;
+    margin-bottom: 6rem;
+    background-color: $white;
+    border-radius: .3rem;
+    box-shadow: 0 .2rem .4rem hsl(0, 0%, 90%);
+    overflow: hidden;
+
+    @media only screen and (max-width: 600px) {
+        min-width: 80%;
+    }
+
+    @media only screen and (max-width: 400px) {
+        min-width: 100%;
+    }
+
+    &:not(:nth-child(4n+1)) {
+        margin-left: 6.5%;
+
+        @media only screen and (max-width: 1100px) {
+            margin-left: 1.3%;
+        }
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    @media only screen and (max-width: 1100px) {
+        max-width: 24%;
+    }
+
+    @media only screen and (max-width: 900px) {
+        margin-bottom: 3rem;
+    }
+
+    &__flag {
+        height: 50%;
+        
+        &--img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &__h2 {
+        font-size: 120%;
+        margin: 1.5rem 2rem;
+
+        @media only screen and (max-width: 1100px) {
+            margin: 1.5rem 1rem;
+        }
+
+        @media only screen and (max-width: 600px) {
+            margin: 2rem;
+        }
+    }
+
+    &__text {
+        margin: 0 2rem;
+        font-weight: 600;
+        line-height: 1.5rem;
+
+        @media only screen and (max-width: 1100px) {
+            margin: 0 1rem;
+        }
+
+        @media only screen and (max-width: 600px) {
+            margin: 0 2rem;
+            line-height: 2rem;
+        }
+
+        &--data {
+            font-weight: 300;
+        }
+
+        &:last-child {
+            margin-bottom: 2rem;
+        }
+    }
+}
+
+.item-darkmode {
+    color: $white;
+    background-color: $dark-blue;
+    box-shadow: 0 .2rem .4rem hsl(210, 23%, 14%);
+}

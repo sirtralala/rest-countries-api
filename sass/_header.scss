@@ -1,0 +1,64 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: $very-dark-blue-lightmode;
+    padding: 2rem 6rem;
+    background-color: $white;
+    box-shadow: 0 .2rem .4rem hsl(0, 0%, 90%);
+
+    @media only screen and (max-width: 900px) {
+        padding: 2rem;
+    }
+
+    @media only screen and (max-width: 700px) {
+        padding: 2rem .5rem;
+    }
+
+    @media only screen and (max-width: 600px) {
+        padding: 2rem;
+    }
+
+    @media only screen and (max-width: 320px) {
+        padding: 2rem 1rem;
+    }
+
+    &-darkmode {
+        color: $white;
+        background-color: $dark-blue;
+        box-shadow: 0 .2rem .4rem hsl(210, 23%, 14%);
+    }
+
+    &__title {
+
+        @media only screen and (max-width: 600px) {
+            font-size: 120%;
+        }
+
+        @media only screen and (max-width: 320px) {
+            font-size: 100%;
+        }
+    }
+
+    &__switch {
+        display: flex;
+        align-items: center;
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        &--icon {
+            width: 32px;
+            height: 32px;
+
+            &-darkmode {
+                fill: $white;
+            }
+        }
+
+        &--text {
+            font-weight: 600;
+        }
+    }
+}

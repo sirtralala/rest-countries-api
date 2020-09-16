@@ -1,0 +1,48 @@
+.searchbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+
+    @media only screen and (max-width: 600px) {
+        flex-direction: column;
+        align-items: flex-start;
+        height: 8rem;
+        margin-bottom: 2rem;
+    }
+
+    &__input {
+        @include input (35%, 1rem 2rem 1rem 5.6rem);
+        background: $white url("../images/SVG/search.svg") 2rem /1.8rem no-repeat;
+
+        @media only screen and (max-width: 600px) {
+            min-width: 100%;
+        }
+
+        &-darkmode {
+            @include search-darkmode($white);
+            box-shadow: 0 .2rem .4rem hsl(210, 23%, 14%);
+        
+            &::placeholder {
+                color: $white;
+            }
+        }
+    }
+
+    &__select {
+        @include input (10%, 1rem 4rem 1rem 1.5rem);
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background: $white url("../images/SVG/cheveron-down.svg") 95% /1.2rem no-repeat;
+
+        @media only screen and (max-width: 600px) {
+            min-width: 50%;
+        }
+
+        &-darkmode {
+            @include select-darkmode($white);
+            color: $white;
+            box-shadow: 0 .2rem .4rem hsl(210, 23%, 14%);
+        }
+    }
+}

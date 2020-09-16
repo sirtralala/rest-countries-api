@@ -1,0 +1,58 @@
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+html {
+    font-family: $font-family-default;
+    font-size: 87.5%;
+    font-weight: 300;
+}
+
+body {
+    box-sizing: border-box;
+    background-color: $very-light-gray;
+}
+
+.body-darkmode {
+    background-color: $very-dark-blue-darkmode;
+    color: $white;
+}
+
+.content {
+    padding: 3rem 6rem;
+
+    @media only screen and (max-width: 900px) {
+        padding: 3rem 2rem;
+    }
+
+    @media only screen and (max-width: 700px) {
+        padding: 3rem .5rem;
+    }
+
+    @media only screen and (max-width: 600px) {
+        padding: 2rem;
+    }
+
+    @media only screen and (max-width: 320px) {
+        padding: 2rem 1rem;
+    }
+}
+
+.attribution { 
+    font-size: 68.75%;
+    color: $very-dark-blue-lightmode;
+    text-align: center;
+    margin: 4rem 0 2rem 0;
+
+    & a {
+        color: blue;
+    }
+}
+
+.attribution-darkmode {
+    color: $white;
+}
