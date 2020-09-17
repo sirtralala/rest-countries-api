@@ -21,6 +21,7 @@
 
         &-darkmode {
             @include search-darkmode($white);
+            color: $white;
             box-shadow: 0 .2rem .4rem hsl(210, 23%, 14%);
         
             &::placeholder {

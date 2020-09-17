@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png"> -->
   <link rel="stylesheet" href="sass/main.css">
   <!-- for production, change to: href="css/style_comp.css" -->
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap" rel="stylesheet">
@@ -23,10 +22,11 @@
 
   <div class="content">
     <div class="searchbar">
-      <input type="search" class="searchbar__input" id="search" name="search" placeholder="Search for a country...">
+      <input type="search" id="search" class="searchbar__input" name="search" placeholder="Search for a country...">
 
       <select name="region" id="region" class="searchbar__select">
         <option value="none" selected disabled hidden>Filter by Region</option>
+        <option value="All">All countries</option>
         <option value="Africa">Africa</option>
         <option value="Americas">Americas</option>
         <option value="Asia">Asia</option>
