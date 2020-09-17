@@ -260,15 +260,46 @@ showDetails = async id => {
 }
 
 let dropdown = document.querySelector('#region');
+clickHandler = () => {
+    if (dropdown.value != 'none') {
+        executeRequest(dropdown.value.toLowerCase());
+    }
+}
+dropdown.addEventListener('click', clickHandler);
+
+if ('ontouchstart' in window) {
+    dropdown.addEventListener('touchstart', () => {
+        let touchHndl = () => {
+            // call the clickHandler actually
+            clickHandler();
+            // remove the touchend handler after perform
+            this.removeEventListener('touchend', touchHndl)
+        }
+        // attach a handler for touch end when you are in touchstart event
+        this.addEventListener('touchend', touchHndl);
+    });
+}
+
+
+let home = document.querySelector('.header__title');
+home.addEventListener('click', () => {
+    executeRequest();
+    dropdown.value = 'none';
+});
+
+
+
+
+
+
+
+/* let dropdown = document.querySelector('#region');
 dropdown.addEventListener('click', () => {
     let selection = document.querySelector('#region').value;
     if (selection != 'none') {
         executeRequest(selection.toLowerCase());
     }
-});
-
-
-
+}); */
 
 /* generateHtmlSingleCountry = item => {
     let darkmode = document.querySelector('body').classList.contains('body-darkmode') ? ' item-darkmode' : '';

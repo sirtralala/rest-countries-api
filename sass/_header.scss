@@ -31,6 +31,10 @@
 
     &__title {
 
+        &:hover {
+            cursor: pointer;
+        }
+
         @media only screen and (max-width: 600px) {
             font-size: 120%;
         }
