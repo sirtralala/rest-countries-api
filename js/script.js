@@ -18,11 +18,18 @@ updateDisplayedCountries = () => {
 
 executeRequest = (region = null) => {
     let request = new XMLHttpRequest();
-    let url = 'https://restcountries.eu/rest/v2/';
-    (region && region != 'all' && region != 'none') ? url += `region/${region}` : url +='all';
+    let url = 'https://restcountries.com/v3.1/';
+    (region && region != 'all' && region != 'none') ? url += `region/${region}` : url +='all?fields=name,cca3,flags,population,region,capital,currencies,languages';
+
+    loadingStateHandler = () => {
+        document.querySelector('.countries').innerHTML = 'Loading countries...';
+        document.removeEventListener('loadstart', handler);
+    }
+    request.addEventListener("loadstart", loadingStateHandler);
 
     request.open('GET', url);
-    request.addEventListener('load', () => {
+
+    handler = () => {
         if (request.status >= 200 && request.status < 300) {
             clearCountries();
             toggleSearchbar();
@@ -36,39 +43,46 @@ executeRequest = (region = null) => {
             console.warn(request.statusText, request.responseText);
             document.querySelector('.content').innerHTML = `Error status ${request.status}: Something went wrong with the API request...`;
         }
-    });
+        document.removeEventListener('load', handler);
+    }
+
+    request.addEventListener('load', handler);
     request.send();
 }
 
 executeBorderRequest = borderString => {
     return new Promise((resolve, reject) => {
         let request = new XMLHttpRequest();
-        let url = `https://restcountries.eu/rest/v2/alpha?codes=${borderString}`;
+        let url = `https://restcountries.com/v3.1/alpha?codes=${borderString}`;
 
         request.open('GET', url);
-        request.addEventListener('load', () => {
+
+        handler = () => {
             if (request.status >= 200 && request.status < 300) {
                 let countryArray = [], idArray = [];
                 JSON.parse(request.responseText).forEach( country => {
                     countryArray.push(country.name);
-                    idArray.push(country.alpha3Code);
+                    idArray.push(country.cca3);
                 });
                 resolve({"countries": countryArray, "ids": idArray});
             } else {
                 console.warn(request.statusText, request.responseText);
                 reject(request.statusText, request.responseText);
             }
-        });
+            document.removeEventListener('load', handler);
+        }
+
+        request.addEventListener('load', handler);
         request.send();
     });
 }
 
 getBorders = async borders => {
-    if (!borders.length) return;
+    if (!borders || !borders.length) return;
 
     let borderString = '';
     borders.forEach ( border => {
-        borderString += `${border.toLowerCase()};`;
+        borderString += `${border.toLowerCase()},`;
     });
 
     let borderData = await executeBorderRequest(borderString.slice(0, borderString.length - 1))
@@ -101,7 +115,7 @@ insertCommas = number => {
 getItemString = items => {
     let itemString = '';
     items.forEach (item => {
-        itemString += `${item.name}, `;   
+        itemString += `${item.name ? item.name : item}, `;   
     });
     return itemString.slice(0, itemString.length - 2);
 }
@@ -110,17 +124,17 @@ getBorderButtons = borderObject => {
     let buttons = '';
     for (let i = 0; i < borderObject.countries.length; i++) {
         buttons += `<button class="item-single__details--button${isDarkMode() ? ' item-single__details--button-darkmode' : ''}" 
-                    onclick="showDetails('${borderObject.ids[i]}')">${borderObject.countries[i]}</button>`;
+                    onclick="showDetails('${borderObject.ids[i]}')">${borderObject.countries[i].official}</button>`;
     }
     return buttons;
 }
 
 generateHtmlMultipleCountries = item => {
-    return `<div class="item${isDarkMode() ? ' item-darkmode' : ''}" id="${item.alpha3Code}" onclick="showDetails('${item.alpha3Code}')">
+    return `<div class="item${isDarkMode() ? ' item-darkmode' : ''}" id="${item.cca3}" onclick="showDetails('${item.cca3}')">
                 <div class="item__flag">
-                    <img src="${item.flag}" alt="${item.name}" class="item__flag--img">
+                    <img src="${item.flags.svg}" alt="${item.name.official}" class="item__flag--img">
                 </div>
-                <h2 class="item__h2">${item.name}</h2>
+                <h2 class="item__h2">${item.name.official}</h2>
                 <p class="item__text">Population: <span class="item__text--data">${insertCommas(item.population)}</span></p>
                 <p class="item__text">Region: <span class="item__text--data">${item.region}</span></p>
                 <p class="item__text">Capital: <span class="item__text--data">${item.capital}</span></p>
@@ -128,24 +142,24 @@ generateHtmlMultipleCountries = item => {
 }
 
 generateHtmlCountryDetails = (item, borderObject) => {
-    return `<div class="item-single${isDarkMode() ? ' item-single-darkmode' : ''}" id="${item.alpha3Code}">
+    return `<div class="item-single${isDarkMode() ? ' item-single-darkmode' : ''}" id="${item.cca3}">
                    <div class="item-single__flag">
-                      <img src="${item.flag}" alt="${item.name}" class="item-single__flag--img">
+                      <img src="${item.flags.svg}" alt="${item.name.official}" class="item-single__flag--img">
                    </div>
                    <div class="item-single__details">
-                      <h2 class="item-single__details--h2">${item.name}</h2>
+                      <h2 class="item-single__details--h2">${item.name.official}</h2>
                       <div class="item-single__details--list">
                          <div class="item-single__details--list-left">
-                            <p class="item-single__details--text">Native Name: <span class="item-single__details--text-data">${insertCommas(item.nativeName)}</span></p>
+                            <p class="item-single__details--text">Native Name: <span class="item-single__details--text-data">${Object.values(item.name.nativeName)[0].official}</span></p>
                             <p class="item-single__details--text">Population: <span class="item-single__details--text-data">${insertCommas(item.population)}</span></p>
                             <p class="item-single__details--text">Region: <span class="item-single__details--text-data">${item.region}</span></p>
-                            <p class="item-single__details--text">Sub region: <span class="item-single__details--text-data">${item.subregion}</span></p>
-                            <p class="item-single__details--text">Capital: <span class="item-single__details--text-data">${item.capital}</span></p>
+                            <p class="item-single__details--text">Sub region: <span class="item-single__details--text-data">${item.subregion || ' -'}</span></p>
+                            <p class="item-single__details--text">Capital: <span class="item-single__details--text-data">${item.capital || ' -'}</span></p>
                          </div>
                          <div class="item-single__details--list-right">
-                            <p class="item-single__details--text">Top Level Domain: <span class="item-single__details--text-data">${item.topLevelDomain}</span></p>
-                            <p class="item-single__details--text">Currencies: <span class="item-single__details--text-data">${getItemString(item.currencies)}</span></p>
-                            <p class="item-single__details--text">Languages: <span class="item-single__details--text-data">${getItemString(item.languages)}</span></p>
+                            <p class="item-single__details--text">Top Level Domain: <span class="item-single__details--text-data">${getItemString(item.tld)}</span></p>
+                            <p class="item-single__details--text">Currencies: <span class="item-single__details--text-data">${item.currencies ? getItemString(Object.values(item.currencies)) : ' -'}</span></p>
+                            <p class="item-single__details--text">Languages: <span class="item-single__details--text-data">${getItemString(Object.values(item.languages))}</span></p>
                          </div>
                       </div>
                       <div class="item-single__details--border">
@@ -242,10 +256,10 @@ toggleBackButton = () => {
 // USER INTERACTION FUNCTIONS
 
 showDetails = async id => {
-    let country = await fetch(`https://restcountries.eu/rest/v2/alpha/${id}`)
+    let country = await fetch(`https://restcountries.com/v3.1/alpha/${id}`)
                         .then( response => { return response.json(); });
-    let borderObject = await getBorders(country.borders);
-    let html = generateHtmlCountryDetails(country, borderObject);
+    let borderObject = await getBorders(country[0].borders);
+    let html = generateHtmlCountryDetails(country[0], borderObject);
     clearCountries();
     toggleBackButton();
     toggleSearchbar();
